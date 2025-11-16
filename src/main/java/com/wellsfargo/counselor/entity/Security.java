@@ -1,15 +1,17 @@
-package com.wellsfargo.counselor;
+package com.wellsfargo.counselor.entity;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Security {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long securityId;
+    @GeneratedValue()
+    private long securityId;
+
+    @ManyToOne
+    private Portfolio portfolio;
 
     @Column(nullable = false)
     private String name;
@@ -18,43 +20,37 @@ public class Security {
     private String category;
 
     @Column(nullable = false)
-    private LocalDate purchaseDate;
+    private float purchasePrice;
 
     @Column(nullable = false)
-    private BigDecimal purchasePrice;
+    private String purchaseDate;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private float quantity;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "portfolio_id")
-    private Portfolio portfolio;
-
-    public Security() {
+    protected Security() {
 
     }
 
-    public Security(Long securityId, String name, String category, LocalDate purchaseDate, BigDecimal purchasePrice, Integer quantity, Portfolio portfolio) {
-        this.securityId = securityId;
+    public Security(Portfolio portfolio, String name, String category, float purchasePrice, String purchaseDate, float quantity) {
+        this.portfolio = portfolio;
         this.name = name;
         this.category = category;
-        this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;
+        this.purchaseDate = purchaseDate;
         this.quantity = quantity;
-        this.portfolio = portfolio;
     }
 
-    public Security(String name, String category, LocalDate purchaseDate, BigDecimal purchasePrice, Integer quantity, Portfolio portfolio) {
-        this.name = name;
-        this.category = category;
-        this.purchaseDate = purchaseDate;
-        this.purchasePrice = purchasePrice;
-        this.quantity = quantity;
-        this.portfolio = portfolio;
-    }
-
-    public Long getSecurityId() {
+    public long getSecurityId() {
         return securityId;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 
     public String getName() {
@@ -73,35 +69,27 @@ public class Security {
         this.category = category;
     }
 
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
-    }
-
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public BigDecimal getPurchasePrice() {
+    public float getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(BigDecimal purchasePrice) {
+    public void setPurchasePrice(float purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
-    public Integer getQuantity() {
+    public String getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(String purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
-    }
-
-    public Portfolio getPortfolio() {
-        return portfolio;
-    }
-
-    public void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
     }
 }

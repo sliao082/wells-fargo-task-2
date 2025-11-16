@@ -1,13 +1,17 @@
-package com.wellsfargo.counselor;
+package com.wellsfargo.counselor.entity;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clientId;
+    @GeneratedValue()
+    private long clientId;
+
+    @ManyToOne
+    private Advisor advisor;
 
     @Column(nullable = false)
     private String firstName;
@@ -16,44 +20,37 @@ public class Client {
     private String lastName;
 
     @Column(nullable = false)
-    private String email;
+    private String address;
 
     @Column(nullable = false)
     private String phone;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "advisor_id")
-    private Advisor advisor;
+    @Column(nullable = false)
+    private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "portfolio_id")
-    private Portfolio portfolio;
+    protected Client() {
 
-    public Client() {
-        
     }
 
-    public Client(Long clientId, String firstName, String lastName, String email, String phone, Advisor advisor, Portfolio portfolio) {
-        this.clientId = clientId;
+    public Client(Advisor advisor, String firstName, String lastName, String address, String phone, String email) {
+        this.advisor = advisor;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.address = address;
         this.phone = phone;
-        this.advisor = advisor;
-        this.portfolio = portfolio;
-    }
-
-    public Client(String firstName, String lastName, String email, String phone, Advisor advisor, Portfolio portfolio) {
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
-        this.phone = phone;
-        this.advisor = advisor;
-        this.portfolio = portfolio;
     }
 
     public Long getClientId() {
         return clientId;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
     }
 
     public String getFirstName() {
@@ -72,12 +69,12 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhone() {
@@ -88,19 +85,11 @@ public class Client {
         this.phone = phone;
     }
 
-    public Advisor getAdvisor() {
-        return advisor;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAdvisor(Advisor advisor) {
-        this.advisor = advisor;
-    }
-
-    public Portfolio getPortfolio() {
-        return portfolio;
-    }
-
-    public void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
